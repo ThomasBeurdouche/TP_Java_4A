@@ -10,7 +10,9 @@ C:\Users\thomas\Desktop\TP Java\rentmanager\src\main\java\com\epf\rentmanager\ex
 C:\Users\thomas\Desktop\TP Java\rentmanager\src\main\java\com\epf\rentmanager\persistence\FillDatabase.java
 C:\Users\thomas\Desktop\TP Java\rentmanager\src\main\java\com\epf\rentmanager\exception\ServiceException.java
 C:\Users\thomas\Desktop\TP Java\rentmanager\src\main\java\com\epf\rentmanager\servlet\VehicleListServlet.java
+C:\Users\thomas\Desktop\TP Java\rentmanager\src\main\java\com\epf\rentmanager\servlet\ReservationListServlet.java
 C:\Users\thomas\Desktop\TP Java\rentmanager\src\main\java\com\epf\rentmanager\dao\ReservationDao.java
+C:\Users\thomas\Desktop\TP Java\rentmanager\src\main\java\com\epf\rentmanager\servlet\ClientListServlet.java
 C:\Users\thomas\Desktop\TP Java\rentmanager\src\main\java\com\epf\rentmanager\utils\IOUtils.java
 C:\Users\thomas\Desktop\TP Java\rentmanager\src\main\java\com\epf\rentmanager\servlet\HomeServlet.java
 C:\Users\thomas\Desktop\TP Java\rentmanager\src\main\java\com\epf\rentmanager\dao\VehicleDao.java

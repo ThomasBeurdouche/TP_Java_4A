@@ -30,7 +30,7 @@ public class VehicleDao {
 	private static final String DELETE_VEHICLE_QUERY = "DELETE FROM Vehicle WHERE id=?;";
 	private static final String FIND_VEHICLE_QUERY = "SELECT id, constructeur, modele, nb_places FROM Vehicle WHERE id=?;";
 	private static final String FIND_VEHICLES_QUERY = "SELECT id, constructeur, modele, nb_places FROM Vehicle;";
-	
+	private static final String COUNT_VEHICLES_QUERY = "SELECT COUNT(*) FROM Vehicle;";
 	public long create(Vehicle vehicle) throws DaoException {
 		try(Connection connexion = ConnectionManager.getConnection();
 		PreparedStatement preparedStatement = connexion.prepareStatement(CREATE_VEHICLE_QUERY, Statement.RETURN_GENERATED_KEYS);){
@@ -67,8 +67,7 @@ public class VehicleDao {
 			preparedStatement.executeQuery();
 			ResultSet resultSet = preparedStatement.getResultSet();
 			resultSet.next();
-			Vehicle newVehicle = new Vehicle(resultSet.getInt(1),resultSet.getString(2),resultSet.getString(3),resultSet.getInt(4));
-			return newVehicle;
+			return new Vehicle(resultSet.getInt(1),resultSet.getString(2),resultSet.getString(3),resultSet.getInt(4));
 		}catch(SQLException e){
 			throw new DaoException("Vehicle FindId : "+e.getMessage());
 		}
@@ -90,6 +89,17 @@ public class VehicleDao {
 		}
 		
 	}
-	
+
+	public int count() throws DaoException {
+		try(Connection connexion = ConnectionManager.getConnection();
+			PreparedStatement preparedStatement = connexion.prepareStatement(COUNT_VEHICLES_QUERY);){
+			preparedStatement.executeQuery();
+			ResultSet resultSet = preparedStatement.getResultSet();
+			resultSet.next();
+			return resultSet.getInt(1);
+		}catch(SQLException e){
+			throw new DaoException("Vehicle count : "+e.getMessage());
+		}
+	}
 
 }

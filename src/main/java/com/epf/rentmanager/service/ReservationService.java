@@ -27,7 +27,7 @@ public class ReservationService {
 	
 	public long create(Reservation reservation) throws ServiceException {
 		try{
-			return reservationDao.create(new Reservation(reservation.getClient_id(),reservation.getVehicle_id(),reservation.getDebut(),reservation.getFin()));
+			return reservationDao.create(new Reservation(reservation.getClient(),reservation.getVehicle(),reservation.getDebut(),reservation.getFin()));
 		} catch (DaoException e){
 			throw new ServiceException("Reservation Erreur Dao create : "+e.getMessage());
 		}
@@ -62,6 +62,14 @@ public class ReservationService {
 			return reservationDao.findAll();
 		} catch (DaoException e){
 			throw new ServiceException("Reservation Erreur Dao find all : "+e.getMessage());
+		}
+	}
+
+	public int count() throws ServiceException {
+		try{
+			return reservationDao.count();
+		} catch (DaoException e){
+			throw new ServiceException("Erreur Reservation Service count : "+e.getMessage());
 		}
 	}
 	

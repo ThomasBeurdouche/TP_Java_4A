@@ -3,6 +3,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
+import com.epf.rentmanager.dao.ClientDao;
+import com.epf.rentmanager.dao.VehicleDao;
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.model.Client;
 import com.epf.rentmanager.model.Reservation;
@@ -226,8 +228,8 @@ public class Main {
         LocalDate debut = IOUtils.readDate("Entrez la date de début de réservation au format dd/MM/yyyy : ", false);
         LocalDate fin = IOUtils.readDate("Entrez la date de fin de réservation au format dd/MM/yyyy : ", false);
         try {
-            System.out.println("ID = "+reservationService.create(new Reservation(idClient, idVehicle, debut, fin)));
-        }catch (ServiceException e) {
+            System.out.println("ID = "+reservationService.create(new Reservation(ClientDao.getInstance().findById(idClient), VehicleDao.getInstance().findById(idVehicle), debut, fin)));
+        }catch (Exception e) {
             System.out.println("Create Reservation : "+e.getMessage());    
         }
     }

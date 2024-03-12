@@ -34,7 +34,7 @@ public class VehicleService {
 		try{
 			return vehicleDao.create(vehicle);
 		} catch (DaoException e){
-			throw new ServiceException("Erreur Dao : "+e.getMessage());
+			throw new ServiceException("Erreur Vehicle Service create : "+e.getMessage());
 		}
 	}
 
@@ -42,7 +42,7 @@ public class VehicleService {
 		try{
 			return vehicleDao.delete(vehicle);
 		} catch (DaoException e){
-			throw new ServiceException("Erreur Dao : "+e.getMessage());
+			throw new ServiceException("Erreur Vehicle Service delete : "+e.getMessage());
 		}	
 	}
 
@@ -50,7 +50,7 @@ public class VehicleService {
 		try{
 			return vehicleDao.findById(id);
 		} catch (DaoException e){
-			throw new ServiceException("Erreur Dao : "+e.getMessage());
+			throw new ServiceException("Erreur Vehicle Service findById : "+e.getMessage());
 		}
 	}
 
@@ -58,7 +58,15 @@ public class VehicleService {
 		try{
 			return vehicleDao.findAll();
 		} catch (DaoException e){
-			throw new ServiceException("Erreur Dao : "+e.getMessage());
+			throw new ServiceException("Erreur Vehicle Service findAll : "+e.getMessage());
+		}
+	}
+
+	public int count() throws ServiceException {
+		try{
+			return vehicleDao.count();
+		} catch (DaoException e){
+			throw new ServiceException("Erreur Vehicle Service count : "+e.getMessage());
 		}
 	}
 	

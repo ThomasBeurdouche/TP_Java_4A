@@ -1,5 +1,6 @@
 package com.epf.rentmanager.servlet;
 import com.epf.rentmanager.exception.ServiceException;
+import com.epf.rentmanager.model.Vehicle;
 import com.epf.rentmanager.service.VehicleService;
 
 import java.io.IOException;
@@ -16,12 +17,25 @@ public class VehicleListServlet extends HttpServlet{
         try {
             request.setAttribute("vehicles", VehicleService.getInstance().findAll());
         }catch (ServiceException e) {
-            System.out.println("FindAll Vehicle : "+e.getMessage());
+            System.out.println("Servlet doGet Vehicle : "+e.getMessage());
         }
 
         this.getServletContext().getRequestDispatcher("/WEB-INF/views/vehicles/list.jsp").forward(request, response);
 	}
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-}
+    // TODO : A Tester
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try{
+            String constructeur = request.getParameter("constructeur");
+            String modele = request.getParameter("modele");
+            int nbrPlace = Integer.parseInt(request.getParameter("nb_places"));
+
+            VehicleService.getInstance().create(new Vehicle(constructeur,modele,nbrPlace));
+
+            response.sendRedirect(request.getContextPath() + "/vehicles");
+        }catch (ServiceException e) {
+            //e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error occurred while inserting the vehicle");
+        }
+    }
 }

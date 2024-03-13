@@ -1,4 +1,5 @@
 package com.epf.rentmanager.servlet;
+import com.epf.rentmanager.AppConfiguration;
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.model.Vehicle;
 import com.epf.rentmanager.service.VehicleService;
@@ -15,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 public class VehicleListServlet extends HttpServlet{
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            request.setAttribute("vehicles", VehicleService.getInstance().findAll());
+            request.setAttribute("vehicles", AppConfiguration.context.getBean(VehicleService.class).findAll());
         }catch (ServiceException e) {
             System.out.println("Servlet doGet Vehicle : "+e.getMessage());
         }
@@ -30,7 +31,7 @@ public class VehicleListServlet extends HttpServlet{
             String modele = request.getParameter("modele");
             int nbrPlace = Integer.parseInt(request.getParameter("nb_places"));
 
-            VehicleService.getInstance().create(new Vehicle(constructeur,modele,nbrPlace));
+            AppConfiguration.context.getBean(VehicleService.class).create(new Vehicle(constructeur,modele,nbrPlace));
 
             response.sendRedirect(request.getContextPath() + "/vehicles");
         }catch (ServiceException e) {

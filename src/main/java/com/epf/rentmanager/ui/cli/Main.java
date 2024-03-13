@@ -1,10 +1,8 @@
 package com.epf.rentmanager.ui.cli;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
-import com.epf.rentmanager.dao.ClientDao;
-import com.epf.rentmanager.dao.VehicleDao;
+import com.epf.rentmanager.AppConfiguration;
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.model.Client;
 import com.epf.rentmanager.model.Reservation;
@@ -16,18 +14,16 @@ import com.epf.rentmanager.utils.IOUtils;
 
 public class Main {
 
-    private static ClientService clientService = ClientService.getInstance();
-    private static VehicleService vehicleService = VehicleService.getInstance();
-    private static ReservationService reservationService = ReservationService.getInstance();
+    private static ClientService clientService = AppConfiguration.context.getBean(ClientService.class);
+    private static VehicleService vehicleService = AppConfiguration.context.getBean(VehicleService.class);
+    private static ReservationService reservationService = AppConfiguration.context.getBean(ReservationService.class);
+
     public static void main(String [] args){
         Scanner scanner = new Scanner(System.in);
         boolean continuer = true;
-        boolean client = false;
-        boolean vehicle = false;
-        boolean reservation = false;
 
         while (continuer) {
-            System.out.println("Choisissez l'objet que vous voulez utilisé :");
+            System.out.println("Choisissez l'objet que vous voulez utiliser :");
             System.out.println("1. Client");
             System.out.println("2. Vehicule");
             System.out.println("3. Réservation");
@@ -37,98 +33,110 @@ public class Main {
 
             switch (choix) {
                 case 1:
-                    client=true;
-                    while (client) {
-                        System.out.println("Choisissez une fonction à exécuter :");
-                        System.out.println("1. Pour créer un client");
-                        //System.out.println("2. Pour supprimer un client");
-                        System.out.println("3. Pour afficher tous les clients");
-                        System.out.println("4. Retour choix objet");
-            
-                        int choixClient = scanner.nextInt();
-            
-                        switch (choixClient) {
-                            case 1:
-                                ClientCreate();
-                                break;
-                            //case 2:
-                                //long clientId = IOUtils.readLong("Id du Client : ");
-                                //ClientDelete(clientService.findById(clientId));
-                                //break;
-                            case 3:
-                                ClientFindAll();
-                                break;
-                            case 4:
-                                vehicle = false;
-                                break;
-                            default:
-                                System.out.println("Choix invalide");
-                        }
-                    }
+                    InterfaceClient(scanner);
                     break;
                 case 2:
-                    vehicle=true;
-                    while (vehicle) {
-                        System.out.println("Choisissez une fonction à exécuter :");
-                        System.out.println("1. Pour créer un véhicule");
-                        //System.out.println("2. Pour supprimer un véhicule");
-                        System.out.println("3. Pour afficher tous les véhicules");
-                        System.out.println("4. Retour choix objet");
-            
-                        int choixVehicule = scanner.nextInt();
-            
-                        switch (choixVehicule) {
-                            case 1:
-                                VehicleCreate();
-                                break;
-                            //case 2:
-                                //long vehicleId = IOUtils.readLong("Id du Vehicle : ");
-                                //VehicleDelete(vehicleService.findById(vehicleId));
-                                //break;
-                            case 3:
-                                VehicleFindAll();
-                                break;
-                            case 4:
-                                vehicle = false;
-                                break;
-                            default:
-                                System.out.println("Choix invalide");
-                        }
-                    }
+                    InterfaceVehicle(scanner);
                     break;
                 case 3:
-                reservation=true;
-                while (reservation) {
-                    System.out.println("Choisissez une fonction à exécuter :");
-                    System.out.println("1. Pour créer une réservation");
-                    //System.out.println("2. Pour supprimer une réservation");
-                    System.out.println("3. Pour afficher toutes les réservations");
-                    System.out.println("4. Retour choix objet");
-        
-                    int choixReservation = scanner.nextInt();
-        
-                    switch (choixReservation) {
-                        case 1:
-                            ReservationCreate();
-                            break;
-                        //case 2:
-                            //long reservationId = IOUtils.readLong("Id du client : ");
-                            //ReservationDelete(reservationService.findById(reservationId));
-                            //break;
-                        case 3:
-                            ReservationFindAll();
-                            break;
-                        case 4:
-                            reservation = false;
-                            break;
-                        default:
-                            System.out.println("Choix invalide");
-                    }
-                }
+                    InterfaceReservation(scanner);
                     break;
                 case 4:
                     continuer = false;
                     System.out.println("Au revoir !");
+                    break;
+                default:
+                    System.out.println("Choix invalide");
+            }
+        }
+    }
+
+    public static void InterfaceReservation(Scanner scanner) {
+        boolean reservation=true;
+        while (reservation) {
+            System.out.println("Choisissez une fonction à exécuter :");
+            System.out.println("1. Pour créer une réservation");
+            System.out.println("2. Pour supprimer une réservation");
+            System.out.println("3. Pour afficher toutes les réservations");
+            System.out.println("4. Retour choix objet");
+
+            int choixReservation = scanner.nextInt();
+
+            switch (choixReservation) {
+                case 1:
+                    ReservationCreate();
+                    break;
+                case 2:
+                long reservationId = IOUtils.readLong("Id du client : ");
+                ReservationDelete(reservationId);
+                break;
+                case 3:
+                    ReservationFindAll();
+                    break;
+                case 4:
+                    reservation = false;
+                    break;
+                default:
+                    System.out.println("Choix invalide");
+            }
+        }
+    }
+
+    public static void InterfaceVehicle(Scanner scanner) {
+        boolean vehicle=true;
+        while (vehicle) {
+            System.out.println("Choisissez une fonction à exécuter :");
+            System.out.println("1. Pour créer un véhicule");
+            System.out.println("2. Pour supprimer un véhicule");
+            System.out.println("3. Pour afficher tous les véhicules");
+            System.out.println("4. Retour choix objet");
+
+            int choixVehicule = scanner.nextInt();
+
+            switch (choixVehicule) {
+                case 1:
+                    VehicleCreate();
+                    break;
+                case 2:
+                long vehicleId = IOUtils.readLong("Id du Vehicle : ");
+                VehicleDelete(vehicleId);
+                break;
+                case 3:
+                    VehicleFindAll();
+                    break;
+                case 4:
+                    vehicle = false;
+                    break;
+                default:
+                    System.out.println("Choix invalide");
+            }
+        }
+    }
+
+    public static void InterfaceClient(Scanner scanner) {
+        boolean client = true;
+        while (client){
+            System.out.println("Choisissez une fonction à exécuter :");
+            System.out.println("1. Pour créer un client");
+            System.out.println("2. Pour supprimer un client");
+            System.out.println("3. Pour afficher tous les clients");
+            System.out.println("4. Retour choix objet");
+
+            int choixClient = scanner.nextInt();
+
+            switch (choixClient) {
+                case 1:
+                    ClientCreate();
+                    break;
+                case 2:
+                long clientId = IOUtils.readLong("Id du Client : ");
+                ClientDelete(clientId);
+                break;
+                case 3:
+                    ClientFindAll();
+                    break;
+                case 4:
+                    client = false;
                     break;
                 default:
                     System.out.println("Choix invalide");
@@ -153,10 +161,9 @@ public class Main {
         }
     }
 
-    public static void ClientDelete(Client client){
+    public static void ClientDelete(long idClient){
         try {
-            System.out.println(client);
-            System.out.println(clientService.delete(client));
+            System.out.println(clientService.delete(clientService.findById(idClient)));
         }catch (ServiceException e) {
             System.out.println("Delete Client : "+e.getMessage());    
         }
@@ -189,15 +196,15 @@ public class Main {
         try {
             System.out.println("ID = "+vehicleService.create(new Vehicle(constructeur,modele,nbrPlace)));
         }catch (ServiceException e) {
-            System.out.println("Create Vehicle"+e.getMessage());    
+            System.out.println("Main Create Vehicle"+e.getMessage());
         }
     }
 
-    public static void VehicleDelete(Vehicle vehicle){
+    public static void VehicleDelete(long idVehicle){
         try {
-            System.out.println(vehicleService.delete(vehicle));
+            System.out.println(vehicleService.delete(vehicleService.findById(idVehicle)));
         }catch (ServiceException e) {
-            System.out.println("Delete Vehicle : "+e.getMessage());    
+            System.out.println("Main Delete Vehicle : "+e.getMessage());
         }
     }
 
@@ -206,7 +213,7 @@ public class Main {
             System.out.println(Id);
             System.out.println(vehicleService.findById(Id));
         }catch (ServiceException e) {
-            System.out.println("FindById Vehicle : "+e.getMessage());    
+            System.out.println("Main FindById Vehicle : "+e.getMessage());
         }
     }
 
@@ -228,15 +235,15 @@ public class Main {
         LocalDate debut = IOUtils.readDate("Entrez la date de début de réservation au format dd/MM/yyyy : ", false);
         LocalDate fin = IOUtils.readDate("Entrez la date de fin de réservation au format dd/MM/yyyy : ", false);
         try {
-            System.out.println("ID = "+reservationService.create(new Reservation(ClientDao.getInstance().findById(idClient), VehicleDao.getInstance().findById(idVehicle), debut, fin)));
+            System.out.println("ID = "+reservationService.create(new Reservation(clientService.findById(idClient), vehicleService.findById(idVehicle), debut, fin)));
         }catch (Exception e) {
             System.out.println("Create Reservation : "+e.getMessage());    
         }
     }
 
-    public static void ReservationDelete(Reservation reservation){
+    public static void ReservationDelete(long idReservation){
         try {
-            System.out.println(reservationService.delete(reservation));
+            System.out.println(reservationService.delete(reservationService.findById(idReservation)));
         }catch (ServiceException e) {
             System.out.println("Delete Reservation : "+e.getMessage());    
         }

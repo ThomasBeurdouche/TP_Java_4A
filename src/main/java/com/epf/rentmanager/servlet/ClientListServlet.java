@@ -1,5 +1,6 @@
 package com.epf.rentmanager.servlet;
 
+import com.epf.rentmanager.AppConfiguration;
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.service.ClientService;
 
@@ -14,7 +15,7 @@ import java.io.IOException;
 public class ClientListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            request.setAttribute("clients", ClientService.getInstance().findAll());
+            request.setAttribute("clients", AppConfiguration.context.getBean(ClientService.class).findAll());
         }catch (ServiceException e) {
             System.out.println("Servlet doGet Client : "+e.getMessage());
         }

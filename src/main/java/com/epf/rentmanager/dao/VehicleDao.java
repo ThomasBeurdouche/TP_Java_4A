@@ -3,28 +3,21 @@ package com.epf.rentmanager.dao;
 import com.epf.rentmanager.model.*;
 import com.epf.rentmanager.exception.*;
 import java.sql.Connection;
-import java.sql.Date;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import com.epf.rentmanager.persistence.ConnectionManager;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class VehicleDao {
 	
-	private static VehicleDao instance = null;
+
 	private VehicleDao() {}
-	public static VehicleDao getInstance() {
-		if(instance == null) {
-			instance = new VehicleDao();
-		}
-		return instance;
-	}
 	
 	private static final String CREATE_VEHICLE_QUERY = "INSERT INTO Vehicle(constructeur, modele, nb_places) VALUES(?, ?, ?);";
 	private static final String DELETE_VEHICLE_QUERY = "DELETE FROM Vehicle WHERE id=?;";
@@ -54,9 +47,9 @@ public class VehicleDao {
 		PreparedStatement preparedStatement = connexion.prepareStatement(DELETE_VEHICLE_QUERY);){
 			preparedStatement.setLong(1, vehicle.getId());
 			preparedStatement.executeUpdate();
-			return 1;
+			return vehicle.getId();
 		}catch(SQLException e){
-			throw new DaoException("Vehicle delete : "+e.getMessage());
+			throw new DaoException("Vehicle Dao delete : "+e.getMessage());
 		}
 	}
 
@@ -69,7 +62,7 @@ public class VehicleDao {
 			resultSet.next();
 			return new Vehicle(resultSet.getInt(1),resultSet.getString(2),resultSet.getString(3),resultSet.getInt(4));
 		}catch(SQLException e){
-			throw new DaoException("Vehicle FindId : "+e.getMessage());
+			throw new DaoException("Vehicle Dao FindId : "+e.getMessage());
 		}
 	}
 
@@ -85,7 +78,7 @@ public class VehicleDao {
 			}
 			return newVehicles;
 		}catch(SQLException e){
-			throw new DaoException("Vehicle FindAll : "+e.getMessage());
+			throw new DaoException("Vehicle Dao FindAll : "+e.getMessage());
 		}
 		
 	}
@@ -98,7 +91,7 @@ public class VehicleDao {
 			resultSet.next();
 			return resultSet.getInt(1);
 		}catch(SQLException e){
-			throw new DaoException("Vehicle count : "+e.getMessage());
+			throw new DaoException("Vehicle Dao count : "+e.getMessage());
 		}
 	}
 

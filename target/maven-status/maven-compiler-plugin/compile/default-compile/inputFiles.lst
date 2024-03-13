@@ -1,6 +1,7 @@
 C:\Users\thomas\Desktop\TP Java\rentmanager\src\main\java\com\epf\rentmanager\service\ClientService.java
 C:\Users\thomas\Desktop\TP Java\rentmanager\src\main\java\com\epf\rentmanager\model\Vehicle.java
 C:\Users\thomas\Desktop\TP Java\rentmanager\src\main\java\com\epf\rentmanager\service\ReservationService.java
+C:\Users\thomas\Desktop\TP Java\rentmanager\src\main\java\com\epf\rentmanager\AppConfiguration.java
 C:\Users\thomas\Desktop\TP Java\rentmanager\src\main\java\com\epf\rentmanager\model\Client.java
 C:\Users\thomas\Desktop\TP Java\rentmanager\src\main\java\com\epf\rentmanager\model\Reservation.java
 C:\Users\thomas\Desktop\TP Java\rentmanager\src\main\java\com\epf\rentmanager\persistence\ConnectionManager.java
@@ -14,6 +15,7 @@ C:\Users\thomas\Desktop\TP Java\rentmanager\src\main\java\com\epf\rentmanager\se
 C:\Users\thomas\Desktop\TP Java\rentmanager\src\main\java\com\epf\rentmanager\dao\ReservationDao.java
 C:\Users\thomas\Desktop\TP Java\rentmanager\src\main\java\com\epf\rentmanager\servlet\ClientListServlet.java
 C:\Users\thomas\Desktop\TP Java\rentmanager\src\main\java\com\epf\rentmanager\utils\IOUtils.java
+C:\Users\thomas\Desktop\TP Java\rentmanager\src\main\java\com\epf\rentmanager\WebConfiguration.java
 C:\Users\thomas\Desktop\TP Java\rentmanager\src\main\java\com\epf\rentmanager\servlet\HomeServlet.java
 C:\Users\thomas\Desktop\TP Java\rentmanager\src\main\java\com\epf\rentmanager\dao\VehicleDao.java
 C:\Users\thomas\Desktop\TP Java\rentmanager\src\main\java\com\epf\rentmanager\dao\ClientDao.java

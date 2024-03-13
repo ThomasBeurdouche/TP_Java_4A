@@ -1,40 +1,26 @@
 package com.epf.rentmanager.service;
 
-import java.util.ArrayList;
 import java.util.List;
-import com.epf.rentmanager.model.*;
-import com.epf.rentmanager.exception.*;
 import com.epf.rentmanager.exception.DaoException;
 import com.epf.rentmanager.exception.ServiceException;
-import com.epf.rentmanager.model.Client;
 import com.epf.rentmanager.model.Vehicle;
-import com.epf.rentmanager.dao.ClientDao;
 import com.epf.rentmanager.dao.VehicleDao;
+import org.springframework.stereotype.Service;
 
+@Service
 public class VehicleService {
 
 	private VehicleDao vehicleDao;
-	public static VehicleService instance;
-	
-	private VehicleService() {
-		this.vehicleDao = VehicleDao.getInstance();
+	private VehicleService(VehicleDao vehicleDao) {
+		this.vehicleDao = vehicleDao;
 	}
-	
-	public static VehicleService getInstance() {
-		if (instance == null) {
-			instance = new VehicleService();
-		}
-		
-		return instance;
-	}
-	
 	
 	public long create(Vehicle vehicle) throws ServiceException {
 		if(vehicle.getConstructeur().isEmpty()||(vehicle.getNb_places()<=1))throw new ServiceException("Le vehicle n'as pas de constructeur ou de place");
 		try{
 			return vehicleDao.create(vehicle);
 		} catch (DaoException e){
-			throw new ServiceException("Erreur Vehicle Service create : "+e.getMessage());
+			throw new ServiceException("Vehicle Service create : "+e.getMessage());
 		}
 	}
 
@@ -42,7 +28,7 @@ public class VehicleService {
 		try{
 			return vehicleDao.delete(vehicle);
 		} catch (DaoException e){
-			throw new ServiceException("Erreur Vehicle Service delete : "+e.getMessage());
+			throw new ServiceException("Vehicle Service delete : "+e.getMessage());
 		}	
 	}
 
@@ -50,7 +36,7 @@ public class VehicleService {
 		try{
 			return vehicleDao.findById(id);
 		} catch (DaoException e){
-			throw new ServiceException("Erreur Vehicle Service findById : "+e.getMessage());
+			throw new ServiceException("Vehicle Service findById : "+e.getMessage());
 		}
 	}
 
@@ -58,7 +44,7 @@ public class VehicleService {
 		try{
 			return vehicleDao.findAll();
 		} catch (DaoException e){
-			throw new ServiceException("Erreur Vehicle Service findAll : "+e.getMessage());
+			throw new ServiceException("Vehicle Service findAll : "+e.getMessage());
 		}
 	}
 
@@ -66,7 +52,7 @@ public class VehicleService {
 		try{
 			return vehicleDao.count();
 		} catch (DaoException e){
-			throw new ServiceException("Erreur Vehicle Service count : "+e.getMessage());
+			throw new ServiceException("Vehicle Service count : "+e.getMessage());
 		}
 	}
 	

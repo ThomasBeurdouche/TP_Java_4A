@@ -4,30 +4,21 @@ import com.epf.rentmanager.model.*;
 import com.epf.rentmanager.exception.*;
 import java.sql.Connection;
 import java.sql.Date;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import org.h2.engine.Database;
 
 import com.epf.rentmanager.persistence.ConnectionManager;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class ClientDao {
-	
-	private static ClientDao instance = null;
+
+
 	private ClientDao() {}
-	public static ClientDao getInstance() {
-		if(instance == null) {
-			instance = new ClientDao();
-		}
-		return instance;
-	}
 	
 	private static final String CREATE_CLIENT_QUERY = "INSERT INTO Client(nom, prenom, email, naissance) VALUES(?, ?, ?, ?);";
 	private static final String DELETE_CLIENT_QUERY = "DELETE FROM Client WHERE id=?;";
@@ -62,7 +53,7 @@ public class ClientDao {
 			
 			preparedStatement.setLong(1, client.getId());
 			preparedStatement.executeUpdate();
-			return 1;
+			return client.getId();
 		}catch(SQLException e){
 			throw new DaoException("Client Delete : "+e.getMessage());
 		}
@@ -76,8 +67,7 @@ public class ClientDao {
 			preparedStatement.executeQuery();
 			ResultSet resultSet = preparedStatement.getResultSet();
 			resultSet.next();
-			Client newClient = new Client(id,resultSet.getString(1),resultSet.getString(2),resultSet.getString(3),resultSet.getDate(4).toLocalDate());
-			return newClient;
+			return 	new Client(id,resultSet.getString(1),resultSet.getString(2),resultSet.getString(3),resultSet.getDate(4).toLocalDate());
 		}catch(SQLException e){
 			throw new DaoException("Client FindId : "+e.getMessage());
 		}

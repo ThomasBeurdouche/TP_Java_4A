@@ -1,5 +1,6 @@
 package com.epf.rentmanager.servlet;
 
+import com.epf.rentmanager.AppConfiguration;
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.service.VehicleService;
 import com.epf.rentmanager.service.ClientService;
@@ -15,18 +16,14 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/home")
 public class HomeServlet extends HttpServlet {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-			request.setAttribute("nb_vehicle", VehicleService.getInstance().count());
-			request.setAttribute("nb_client", ClientService.getInstance().count());
-			request.setAttribute("nb_reservation", ReservationService.getInstance().count());
+			request.setAttribute("nb_vehicle", AppConfiguration.context.getBean(VehicleService.class).count());
+			request.setAttribute("nb_client", AppConfiguration.context.getBean(ClientService.class).count());
+			request.setAttribute("nb_reservation", AppConfiguration.context.getBean(ReservationService.class).count());
 		}catch (ServiceException e) {
 			System.out.println("Servlet doGet Home : "+e.getMessage());
 		}

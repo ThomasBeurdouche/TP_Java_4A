@@ -2,8 +2,6 @@ package com.epf.rentmanager.model;
 
 import java.time.LocalDate;
 
-import javax.print.attribute.standard.DateTimeAtCompleted;
-
 public class Client {
     private long id;
     private String nom;

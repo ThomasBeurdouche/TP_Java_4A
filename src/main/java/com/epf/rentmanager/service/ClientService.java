@@ -2,28 +2,20 @@ package com.epf.rentmanager.service;
 
 import com.epf.rentmanager.model.*;
 import com.epf.rentmanager.exception.*;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.epf.rentmanager.dao.ClientDao;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ClientService {
 
 	private ClientDao clientDao;
-	public static ClientService instance;
+
 	
-	private ClientService() {
-		this.clientDao = ClientDao.getInstance();
+	private ClientService(ClientDao clientDao) {
+		this.clientDao = clientDao;
 	}
-	
-	public static ClientService getInstance() {
-		if (instance == null) {
-			instance = new ClientService();
-		}
-		
-		return instance;
-	}
-	
 	
 	public long create(Client client) throws ServiceException {
 		if(client.getNom().isEmpty()||client.getPrenom().isEmpty())throw new ServiceException("Le client n'as pas de nom ou de prénom");

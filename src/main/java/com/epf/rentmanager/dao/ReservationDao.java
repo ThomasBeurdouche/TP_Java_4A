@@ -13,13 +13,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.epf.rentmanager.persistence.ConnectionManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class ReservationDao {
 
-
 	private ReservationDao() {}
+
+	@Autowired
+	private ClientDao clientDao;
+
+	@Autowired
+	private VehicleDao vehicleDao;
 	
 	private static final String CREATE_RESERVATION_QUERY = "INSERT INTO Reservation(client_id, vehicle_id, debut, fin) VALUES(?, ?, ?, ?);";
 	private static final String DELETE_RESERVATION_QUERY = "DELETE FROM Reservation WHERE id=?;";
@@ -67,7 +73,7 @@ public class ReservationDao {
 			preparedStatement.executeQuery();
 			ResultSet resultSet = preparedStatement.getResultSet();
 			resultSet.next();
-			return new Reservation(resaId,AppConfiguration.context.getBean(ClientDao.class).findById(resultSet.getInt(1)), AppConfiguration.context.getBean(VehicleDao.class).findById(resultSet.getInt(2)),resultSet.getDate(3).toLocalDate(),resultSet.getDate(4).toLocalDate());
+			return new Reservation(resaId,clientDao.findById(resultSet.getInt(1)), vehicleDao.findById(resultSet.getInt(2)),resultSet.getDate(3).toLocalDate(),resultSet.getDate(4).toLocalDate());
 		}catch(SQLException e){
 			throw new DaoException("Reservation FindByClientID : "+e.getMessage());
 		}
@@ -81,7 +87,7 @@ public class ReservationDao {
 			ResultSet resultSet = preparedStatement.getResultSet();
 			List<Reservation> newReservations = new ArrayList<>();
 			while (resultSet.next()) {
-				Reservation newReservation = new Reservation(resultSet.getInt(1),AppConfiguration.context.getBean(ClientDao.class).findById(clientId), AppConfiguration.context.getBean(VehicleDao.class).findById(resultSet.getInt(2)),resultSet.getDate(3).toLocalDate(),resultSet.getDate(4).toLocalDate());
+				Reservation newReservation = new Reservation(resultSet.getInt(1),clientDao.findById(clientId), vehicleDao.findById(resultSet.getInt(2)),resultSet.getDate(3).toLocalDate(),resultSet.getDate(4).toLocalDate());
 				newReservations.add(newReservation);
 			}
 			return newReservations;
@@ -98,7 +104,7 @@ public class ReservationDao {
 			ResultSet resultSet = preparedStatement.getResultSet();
 			List<Reservation> newReservations = new ArrayList<>();
 			while (resultSet.next()) {
-				Reservation newReservation = new Reservation(resultSet.getInt(1),AppConfiguration.context.getBean(ClientDao.class).findById(resultSet.getInt(2)),AppConfiguration.context.getBean(VehicleDao.class).findById(vehicleId),resultSet.getDate(3).toLocalDate(),resultSet.getDate(4).toLocalDate());
+				Reservation newReservation = new Reservation(resultSet.getInt(1),clientDao.findById(resultSet.getInt(2)),vehicleDao.findById(vehicleId),resultSet.getDate(3).toLocalDate(),resultSet.getDate(4).toLocalDate());
 				newReservations.add(newReservation);
 			}
 			return newReservations;
@@ -114,7 +120,7 @@ public class ReservationDao {
 			ResultSet resultSet = preparedStatement.getResultSet();
 			List<Reservation> newReservations = new ArrayList<>();
 			while (resultSet.next()) {
-				Reservation newReservation = new Reservation(resultSet.getInt(1),AppConfiguration.context.getBean(ClientDao.class).findById(resultSet.getInt(2)),AppConfiguration.context.getBean(VehicleDao.class).findById(resultSet.getInt(3)),resultSet.getDate(4).toLocalDate(),resultSet.getDate(5).toLocalDate());
+				Reservation newReservation = new Reservation(resultSet.getInt(1),clientDao.findById(resultSet.getInt(2)),vehicleDao.findById(resultSet.getInt(3)),resultSet.getDate(4).toLocalDate(),resultSet.getDate(5).toLocalDate());
 				newReservations.add(newReservation);
 			}
 			return newReservations;

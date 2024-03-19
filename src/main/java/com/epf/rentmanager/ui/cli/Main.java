@@ -11,12 +11,16 @@ import com.epf.rentmanager.service.ClientService;
 import com.epf.rentmanager.service.VehicleService;
 import com.epf.rentmanager.service.ReservationService;
 import com.epf.rentmanager.utils.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class Main {
 
-    private static ClientService clientService = AppConfiguration.context.getBean(ClientService.class);
-    private static VehicleService vehicleService = AppConfiguration.context.getBean(VehicleService.class);
-    private static ReservationService reservationService = AppConfiguration.context.getBean(ReservationService.class);
+    @Autowired
+    private static ClientService clientService;
+    @Autowired
+    private static VehicleService vehicleService;
+    @Autowired
+    private static ReservationService reservationService;
 
     public static void main(String [] args){
         Scanner scanner = new Scanner(System.in);

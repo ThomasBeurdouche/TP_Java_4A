@@ -6,7 +6,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Bean;
 
 @Configuration
-@ComponentScan({"com.epf.rentmanager.service", "com.epf.rentmanager.dao","com.epf.rentmanager.persistence" }) // packages dans lesquels chercher les beans
+@ComponentScan({"com.epf.rentmanager.service", "com.epf.rentmanager.dao","com.epf.rentmanager.persistence","com.epf.rentmanager.servlet"}) // packages dans lesquels chercher les beans
 public class AppConfiguration {
-    public static ApplicationContext context = new AnnotationConfigApplicationContext(AppConfiguration.class);
 }

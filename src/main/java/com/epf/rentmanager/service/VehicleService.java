@@ -5,12 +5,15 @@ import com.epf.rentmanager.exception.DaoException;
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.model.Vehicle;
 import com.epf.rentmanager.dao.VehicleDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class VehicleService {
 
+	@Autowired
 	private VehicleDao vehicleDao;
+
 	private VehicleService(VehicleDao vehicleDao) {
 		this.vehicleDao = vehicleDao;
 	}

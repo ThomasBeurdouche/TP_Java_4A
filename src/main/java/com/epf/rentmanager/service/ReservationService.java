@@ -5,12 +5,15 @@ import com.epf.rentmanager.exception.*;
 import java.util.List;
 
 import com.epf.rentmanager.dao.ReservationDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ReservationService {
 
+	@Autowired
 	private ReservationDao reservationDao;
+
 	private ReservationService(ReservationDao reservationDao) {
 		this.reservationDao = reservationDao;
 	}

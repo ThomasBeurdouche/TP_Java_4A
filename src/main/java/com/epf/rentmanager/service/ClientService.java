@@ -5,14 +5,15 @@ import com.epf.rentmanager.exception.*;
 import java.util.List;
 
 import com.epf.rentmanager.dao.ClientDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ClientService {
 
+	@Autowired
 	private ClientDao clientDao;
 
-	
 	private ClientService(ClientDao clientDao) {
 		this.clientDao = clientDao;
 	}

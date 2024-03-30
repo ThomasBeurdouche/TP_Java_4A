@@ -31,7 +31,7 @@
             <span class="info-box-icon bg-aqua"><i class="fa fa-user"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">Utilisateurs</span>
+              <span class="info-box-text"> Utilisateurs</span>
               <span class="info-box-number"><%= request.getAttribute("nb_client") %></span>
             </div>
             <!-- /.info-box-content -->

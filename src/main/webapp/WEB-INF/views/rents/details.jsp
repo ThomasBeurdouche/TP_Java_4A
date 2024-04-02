@@ -20,16 +20,7 @@
                     <!-- Profile Image -->
                     <div class="box box-primary">
                         <div class="box-body box-profile">
-                            <h3 class="profile-username text-center">${client.nom} ${client.prenom} (${client.email})</h3>
-
-                            <ul class="list-group list-group-unbordered">
-                                <li class="list-group-item">
-                                    <b>Reservation(s)</b> <a class="pull-right">${nb_reservation}</a>
-                                </li>
-                                <li class="list-group-item">
-                                    <b>Voiture(s)</b> <a class="pull-right">${nb_voiture}</a>
-                                </li>
-                            </ul>
+                            <h3 class="profile-username text-center">Reservation id: ${reservation.id}<br>Debut: ${reservation.debut}<br>Fin: ${reservation.fin}</h3>
                         </div>
                         <!-- /.box-body -->
                     </div>
@@ -39,31 +30,41 @@
                 <div class="col-md-9">
                     <div class="nav-tabs-custom">
                         <ul class="nav nav-tabs">
-                            <li class="active"><a href="#rents" data-toggle="tab">Reservations</a></li>
-                            <li><a href="#vehicle" data-toggle="tab">Voitures</a></li>
+                            <li class="active"><a href="#client" data-toggle="tab">Client</a></li>
                         </ul>
                         <div class="tab-content">
-                            <div class="active tab-pane" id="rents">
+                           <div class="active tab-pane" id="client">
+                                <!-- /.box-header -->
                                 <div class="box-body no-padding">
                                     <table class="table table-striped">
                                         <tr>
                                             <th style="width: 10px">#</th>
-                                            <th>Voiture</th>
-                                            <th>Date de debut</th>
-                                            <th>Date de fin</th>
+                                            <th>Nom</th>
+                                            <th>Prenom</th>
+                                            <th>email</th>
+                                            <th>Date de Naissance</th>
                                         </tr>
-                                        <c:forEach items="${reservations}" var="reservation">
                                         <tr>
-                                            <td>${reservation.id}.</td>
-                                            <td>${reservation.vehicle.constructeur} ${reservation.vehicle.modele}</td>
-                                            <td>${reservation.debut}</td>
-                                            <td>${reservation.fin}</td>
+                                            <td>${reservation.client.id}.</td>
+                                            <td>${reservation.client.nom}</td>
+                                            <td>${reservation.client.prenom}</td>
+                                            <td>${reservation.client.email}</td>
+                                            <td>${reservation.client.naissance}</td>
                                         </tr>
-                                        </c:forEach>
                                     </table>
                                 </div>
                             </div>
-                            <div class="tab-pane" id="vehicle">
+                            <!-- /.tab-pane -->
+                        </div>
+                        <!-- /.tab-content -->
+                    </div>
+                    <!-- /.nav-tabs-custom -->
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#vehicle" data-toggle="tab">Vehicle</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="active tab-pane" id="vehicle">
                                 <div class="box-body no-padding">
                                     <table class="table table-striped">
                                         <tr>
@@ -72,21 +73,19 @@
                                             <th>Modele</th>
                                             <th>Nombre de places</th>
                                         </tr>
-                                        <c:forEach items="${vehicles}" var="vehicle">
                                         <tr>
-                                            <td>${vehicle.id}.</td>
-                                            <td>${vehicle.constructeur}</td>
-                                            <td>${vehicle.modele}</td>
-                                            <td>${vehicle.nb_places}</td>
+                                            <td>${reservation.vehicle.id}.</td>
+                                            <td>${reservation.vehicle.constructeur}</td>
+                                            <td>${reservation.vehicle.modele}</td>
+                                            <td>${reservation.vehicle.nb_places}</td>
                                         </tr>
-                                        </c:forEach>
                                     </table>
                                 </div>
                             </div>
+                            <!-- /.tab-pane -->
                         </div>
                         <!-- /.tab-content -->
                     </div>
-                    <!-- /.nav-tabs-custom -->
                 </div>
                 <!-- /.col -->
             </div>

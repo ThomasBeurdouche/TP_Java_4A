@@ -39,7 +39,7 @@ public class ReservationCreateServlet extends HttpServlet {
             request.setAttribute("clients", clientService.findAll());
 
         }catch (ServiceException e) {
-            System.out.println("Servlet doGet Vehicle : "+e.getMessage());
+            System.out.println("Servlet doGet Vehicle create : "+e.getMessage());
         }
         this.getServletContext().getRequestDispatcher("/WEB-INF/views/rents/create.jsp").forward(request, response);
     }

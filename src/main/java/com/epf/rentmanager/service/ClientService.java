@@ -23,7 +23,15 @@ public class ClientService {
 		try{
 			return clientDao.create(new Client(client.getId(),client.getNom().toUpperCase(),client.getPrenom(),client.getEmail(),client.getNaissance()));
 		} catch (DaoException e){
-			throw new ServiceException("Erreur Dao : "+e.getMessage());
+			throw new ServiceException("Client create Service: "+e.getMessage());
+		}
+	}
+
+	public boolean modify(Client client) throws ServiceException {
+		try{
+			return clientDao.modify(client);
+		} catch (DaoException e){
+			throw new ServiceException("Client modify Service: "+e.getMessage());
 		}
 	}
 
@@ -31,7 +39,7 @@ public class ClientService {
 		try{
 			return clientDao.delete(client);
 		} catch (DaoException e){
-			throw new ServiceException("Erreur Dao : "+e.getMessage());
+			throw new ServiceException("Client delete Service: "+e.getMessage());
 		}	
 	}
 
@@ -40,7 +48,7 @@ public class ClientService {
 			System.out.println(id);
 			return clientDao.findById(id);
 		} catch (DaoException e){
-			throw new ServiceException("Erreur Dao : "+e.getMessage());
+			throw new ServiceException("Client findById Service: "+e.getMessage());
 		}	
 	}
 
@@ -48,7 +56,7 @@ public class ClientService {
 		try{
 			return clientDao.findAll();
 		} catch (DaoException e){
-			throw new ServiceException("Erreur Dao : "+e.getMessage());
+			throw new ServiceException("Client finAll Service: "+e.getMessage());
 		}
 	}
 
@@ -56,7 +64,7 @@ public class ClientService {
 		try{
 			return clientDao.count();
 		} catch (DaoException e){
-			throw new ServiceException("Erreur Client Service count : "+e.getMessage());
+			throw new ServiceException("Client count Service: "+e.getMessage());
 		}
 	}
 	

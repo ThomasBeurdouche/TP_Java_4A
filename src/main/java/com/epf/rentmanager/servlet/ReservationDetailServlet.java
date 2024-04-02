@@ -1,10 +1,9 @@
 package com.epf.rentmanager.servlet;
 
-import com.epf.rentmanager.AppConfiguration;
 import com.epf.rentmanager.exception.ServiceException;
-import com.epf.rentmanager.model.Reservation;
-import com.epf.rentmanager.model.Vehicle;
 import com.epf.rentmanager.service.ClientService;
+import com.epf.rentmanager.service.ReservationService;
+import com.epf.rentmanager.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
@@ -14,14 +13,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-@WebServlet("/users")
-public class ClientListServlet extends HttpServlet {
+@WebServlet("/rents/details")
+public class ReservationDetailServlet extends HttpServlet {
 
     @Autowired
     private ClientService clientService;
+    @Autowired
+    private VehicleService vehicleService;
+    @Autowired
+    private ReservationService reservationService;
 
     @Override
     public void init() throws ServletException {
@@ -30,19 +31,21 @@ public class ClientListServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         try {
             String idParameter = request.getParameter("id");
-            /*if (idParameter != null && !idParameter.isEmpty()) {
-                long userId = Long.parseLong(idParameter);
-                clientService.delete(clientService.findById(userId));
-                response.sendRedirect(request.getContextPath()+"/users");
-            }*/
-            request.setAttribute("clients", clientService.findAll());
+            if (idParameter != null && !idParameter.isEmpty()) {
+                long reservationId = Long.parseLong(idParameter);
+                request.setAttribute("reservation", reservationService.findById(reservationId));
+            } else {
+                System.out.println("Id absent des paramètres");
+                response.sendRedirect(request.getContextPath() + "/rents"); //TODO
+            }
         }catch (ServiceException e) {
-            System.out.println("Servlet doGet Client : "+e.getMessage());
+            System.out.println("Servlet doGet Reservation detail : "+e.getMessage());
         }
 
-        this.getServletContext().getRequestDispatcher("/WEB-INF/views/users/list.jsp").forward(request, response);
+        this.getServletContext().getRequestDispatcher("/WEB-INF/views/rents/details.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

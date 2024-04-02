@@ -37,7 +37,6 @@ public class VehicleListServlet extends HttpServlet{
         this.getServletContext().getRequestDispatcher("/WEB-INF/views/vehicles/list.jsp").forward(request, response);
 	}
 
-    // TODO : A Tester
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     }
 }

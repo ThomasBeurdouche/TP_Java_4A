@@ -29,11 +29,12 @@ public class ReservationDao {
 	
 	private static final String CREATE_RESERVATION_QUERY = "INSERT INTO Reservation(client_id, vehicle_id, debut, fin) VALUES(?, ?, ?, ?);";
 	private static final String DELETE_RESERVATION_QUERY = "DELETE FROM Reservation WHERE id=?;";
-	private static final String FIND_RESERVATIONS_BY_ID_QUERY = "SELECT client_id, vehicle_id, debut, fin FROM Reservation WHERE vehicle_id=?;";
+	private static final String FIND_RESERVATIONS_BY_ID_QUERY = "SELECT client_id, vehicle_id, debut, fin FROM Reservation WHERE id=?;";
 	private static final String FIND_RESERVATIONS_BY_CLIENT_QUERY = "SELECT id, vehicle_id, debut, fin FROM Reservation WHERE client_id=?;";
 	private static final String FIND_RESERVATIONS_BY_VEHICLE_QUERY = "SELECT id, client_id, debut, fin FROM Reservation WHERE vehicle_id=?;";
 	private static final String FIND_RESERVATIONS_QUERY = "SELECT id, client_id, vehicle_id, debut, fin FROM Reservation;";
 	private static final String COUNT_RESERVATION_QUERY = "SELECT COUNT(*) FROM Reservation;";
+
 
 
 	public long create(Reservation reservation) throws DaoException {
@@ -75,7 +76,7 @@ public class ReservationDao {
 			resultSet.next();
 			return new Reservation(resaId,clientDao.findById(resultSet.getInt(1)), vehicleDao.findById(resultSet.getInt(2)),resultSet.getDate(3).toLocalDate(),resultSet.getDate(4).toLocalDate());
 		}catch(SQLException e){
-			throw new DaoException("Reservation FindByClientID : "+e.getMessage());
+			throw new DaoException("Reservation DAO FindByClientID : "+e.getMessage());
 		}
 	}
 	

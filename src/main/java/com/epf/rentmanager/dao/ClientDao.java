@@ -25,6 +25,8 @@ public class ClientDao {
 	private static final String FIND_CLIENT_QUERY = "SELECT nom, prenom, email, naissance FROM Client WHERE id=?;";
 	private static final String FIND_CLIENTS_QUERY = "SELECT id, nom, prenom, email, naissance FROM Client;";
 	private static final String COUNT_CLIENT_QUERY = "SELECT COUNT(*) FROM Client;";
+	private static final String MODIFY_CLIENT_QUERY = "UPDATE Client SET nom=?, prenom=?, email=?, naissance=? WHERE id=?;";
+
 
 	public long create(Client client) throws DaoException {
 		
@@ -42,9 +44,27 @@ public class ClientDao {
 			return client.getId();
 
 		}catch(SQLException e){
-			throw new DaoException("Client Create : "+e.getMessage());
+			throw new DaoException("Client Create DAO: "+e.getMessage());
 		}
 		
+	}
+
+	public boolean modify(Client client) throws DaoException {
+
+		try(Connection connexion = ConnectionManager.getConnection();
+			PreparedStatement preparedStatement = connexion.prepareStatement(MODIFY_CLIENT_QUERY);){
+			preparedStatement.setString(1, client.getNom());
+			preparedStatement.setString(2, client.getPrenom());
+			preparedStatement.setString(3, client.getEmail());
+			preparedStatement.setDate(4, Date.valueOf(client.getNaissance()));
+			preparedStatement.setLong(5, client.getId());
+			preparedStatement.executeUpdate();
+			return true;
+
+		}catch(SQLException e){
+			throw new DaoException("Client Modify DAO: "+e.getMessage());
+		}
+
 	}
 	
 	public long delete(Client client) throws DaoException {
@@ -55,7 +75,7 @@ public class ClientDao {
 			preparedStatement.executeUpdate();
 			return client.getId();
 		}catch(SQLException e){
-			throw new DaoException("Client Delete : "+e.getMessage());
+			throw new DaoException("Client Delete DAO: "+e.getMessage());
 		}
 
 	}
@@ -69,7 +89,7 @@ public class ClientDao {
 			resultSet.next();
 			return 	new Client(id,resultSet.getString(1),resultSet.getString(2),resultSet.getString(3),resultSet.getDate(4).toLocalDate());
 		}catch(SQLException e){
-			throw new DaoException("Client FindId : "+e.getMessage());
+			throw new DaoException("Client FindId DAO: "+e.getMessage());
 		}
 
 	}
@@ -86,7 +106,7 @@ public class ClientDao {
 			}
 			return newClients;
 		}catch(SQLException e){
-			throw new DaoException("Client FindAll : "+e.getMessage());
+			throw new DaoException("Client FindAll DAO: "+e.getMessage());
 		}
 	}
 
@@ -98,7 +118,7 @@ public class ClientDao {
 			resultSet.next();
 			return resultSet.getInt(1);
 		}catch(SQLException e){
-			throw new DaoException("Client count : "+e.getMessage());
+			throw new DaoException("Client count DAO: "+e.getMessage());
 		}
 	}
 

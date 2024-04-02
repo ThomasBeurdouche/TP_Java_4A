@@ -12,15 +12,18 @@ import com.epf.rentmanager.service.VehicleService;
 import com.epf.rentmanager.service.ReservationService;
 import com.epf.rentmanager.utils.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+
+import javax.servlet.ServletException;
 
 public class Main {
 
     @Autowired
-    private static ClientService clientService;
+    private static ClientService clientService;//TODO
     @Autowired
-    private static VehicleService vehicleService;
+    private static VehicleService vehicleService;//TODO
     @Autowired
-    private static ReservationService reservationService;
+    private static ReservationService reservationService;//TODO
 
     public static void main(String [] args){
         Scanner scanner = new Scanner(System.in);
@@ -62,7 +65,8 @@ public class Main {
             System.out.println("1. Pour créer une réservation");
             System.out.println("2. Pour supprimer une réservation");
             System.out.println("3. Pour afficher toutes les réservations");
-            System.out.println("4. Retour choix objet");
+            System.out.println("4. Pour afficher une réservation");
+            System.out.println("5. Retour choix objet");
 
             int choixReservation = scanner.nextInt();
 
@@ -71,13 +75,17 @@ public class Main {
                     ReservationCreate();
                     break;
                 case 2:
-                long reservationId = IOUtils.readLong("Id du client : ");
-                ReservationDelete(reservationId);
-                break;
+                    System.out.println(reservationService == null);
+                    ReservationDelete(IOUtils.readLong("Id de la reservation : "));
+                    break;
                 case 3:
                     ReservationFindAll();
                     break;
                 case 4:
+                    System.out.println(reservationService == null);
+                    ReservationFindById(IOUtils.readLong("Id de la reservation : "));
+                    break;
+                case 5:
                     reservation = false;
                     break;
                 default:
@@ -102,8 +110,7 @@ public class Main {
                     VehicleCreate();
                     break;
                 case 2:
-                long vehicleId = IOUtils.readLong("Id du Vehicle : ");
-                VehicleDelete(vehicleId);
+                VehicleDelete(IOUtils.readLong("Id du Vehicle : "));
                 break;
                 case 3:
                     VehicleFindAll();
@@ -133,8 +140,7 @@ public class Main {
                     ClientCreate();
                     break;
                 case 2:
-                long clientId = IOUtils.readLong("Id du Client : ");
-                ClientDelete(clientId);
+                ClientDelete(IOUtils.readLong("Id du Client : "));
                 break;
                 case 3:
                     ClientFindAll();
@@ -258,7 +264,7 @@ public class Main {
             System.out.println(IdClient);
             System.out.println(reservationService.findByClientId(IdClient));
         }catch (ServiceException e) {
-            System.out.println("Test FindById Vehicle : "+e.getMessage());    
+            System.out.println("Test FindByIdClient Reservation : "+e.getMessage());
         }
     }
 
@@ -267,7 +273,7 @@ public class Main {
             System.out.println(IdVehicle);
             System.out.println(reservationService.findByClientId(IdVehicle));
         }catch (ServiceException e) {
-            System.out.println("Test FindById Vehicle : "+e.getMessage());    
+            System.out.println("Test FindByIdVehicle Reservation : "+e.getMessage());
         }
     }
 
@@ -275,7 +281,15 @@ public class Main {
         try {
             System.out.println(reservationService.findAll());
         }catch (ServiceException e) {
-            System.out.println("Test FindAll Vehicle : "+e.getMessage());    
+            System.out.println("Test FindAll Reservation : "+e.getMessage());
+        }
+    }
+
+    public static void ReservationFindById(long Id){
+        try {
+            System.out.println(reservationService.findById(Id));
+        }catch (ServiceException e) {
+            System.out.println("Test FindById Reservation : "+e.getMessage());
         }
     }
 

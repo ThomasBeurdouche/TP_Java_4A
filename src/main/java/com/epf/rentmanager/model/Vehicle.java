@@ -56,5 +56,4 @@ public class Vehicle {
                 + nb_places + "]";
     }
 
-
 }

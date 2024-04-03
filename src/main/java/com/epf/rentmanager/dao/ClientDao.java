@@ -70,7 +70,6 @@ public class ClientDao {
 	public long delete(Client client) throws DaoException {
 		try(Connection connexion = ConnectionManager.getConnection();
 		PreparedStatement preparedStatement = connexion.prepareStatement(DELETE_CLIENT_QUERY);){
-			
 			preparedStatement.setLong(1, client.getId());
 			preparedStatement.executeUpdate();
 			return client.getId();

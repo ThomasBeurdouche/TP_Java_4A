@@ -45,7 +45,6 @@ public class ClientService {
 
 	public Client findById(long id) throws ServiceException {
 		try{
-			System.out.println(id);
 			return clientDao.findById(id);
 		} catch (DaoException e){
 			throw new ServiceException("Client findById Service: "+e.getMessage());

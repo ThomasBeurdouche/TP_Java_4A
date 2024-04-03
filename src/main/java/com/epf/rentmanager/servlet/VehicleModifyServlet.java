@@ -1,8 +1,8 @@
 package com.epf.rentmanager.servlet;
 
 import com.epf.rentmanager.exception.ServiceException;
-import com.epf.rentmanager.model.Client;
-import com.epf.rentmanager.service.ClientService;
+import com.epf.rentmanager.model.Vehicle;
+import com.epf.rentmanager.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
@@ -15,11 +15,11 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-@WebServlet("/users/modify")
-public class ClientModifyServlet extends HttpServlet {
+@WebServlet("/vehicles/modify")
+public class VehicleModifyServlet extends HttpServlet {
 
     @Autowired
-    private ClientService clientService;
+    private VehicleService vehicleService;
 
     @Override
     public void init() throws ServletException {
@@ -32,34 +32,32 @@ public class ClientModifyServlet extends HttpServlet {
             String idParameter = request.getParameter("id");
             if (idParameter != null && !idParameter.isEmpty()) {
                 long userId = Long.parseLong(idParameter);
-                request.setAttribute("client", clientService.findById(userId));
-                request.setAttribute("naissance", clientService.findById(userId).getNaissance().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                request.setAttribute("vehicle", vehicleService.findById(userId));
             }else {
                 System.out.println("Id absent des paramètres");
-                response.sendRedirect(request.getContextPath() + "/users"); //TODO
             }
+
         }catch (ServiceException e) {
-            System.out.println("Servlet doGet Client Modify: "+e.getMessage());
+            System.out.println("Servlet doGet Vehicle Modify: "+e.getMessage());
         }
 
-        this.getServletContext().getRequestDispatcher("/WEB-INF/views/users/modify.jsp").forward(request, response);
+        this.getServletContext().getRequestDispatcher("/WEB-INF/views/vehicles/modify.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String firstName = request.getParameter("first_name");
-        String lastName = request.getParameter("last_name");
-        String email = request.getParameter("email");
-        String birthdayString = request.getParameter("birthday");
-        LocalDate birthday = LocalDate.parse(birthdayString, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        String constructeur = request.getParameter("manufacturer");
+        String modele = request.getParameter("modele");
+        String nb_placesString = request.getParameter("seats");
+        int nb_places = Integer.parseInt(nb_placesString);
         String idParameter = request.getParameter("ID");
-        long userId = Long.parseLong(idParameter);
+        long vehicleId = Long.parseLong(idParameter);
 
-        Client newClient = new Client(userId,lastName,firstName,email,birthday);
+        Vehicle newVehicle = new Vehicle(vehicleId,constructeur,modele,nb_places);
         try {
-            clientService.modify(newClient);
-            response.sendRedirect(request.getContextPath() + "/users");
+            vehicleService.modify(newVehicle);
+            response.sendRedirect(request.getContextPath() + "/vehicles");
         } catch (ServiceException e) {
-            request.setAttribute("errorMessage", "Client Modify Servlet DoPost : " + e.getMessage());
+            request.setAttribute("errorMessage", "Vehicle modify dopost servlet : " + e.getMessage());
         }
     }
 }

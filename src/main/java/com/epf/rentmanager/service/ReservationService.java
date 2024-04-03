@@ -34,6 +34,14 @@ public class ReservationService {
 		}	
 	}
 
+	public boolean modify(Reservation reservation) throws ServiceException {
+		try{
+			return reservationDao.modify(reservation);
+		} catch (DaoException e){
+			throw new ServiceException("Reservation Service modify : "+e.getMessage());
+		}
+	}
+
 	public Reservation findById(long id) throws ServiceException {
 		try{
 			return reservationDao.findResaId(id);

@@ -35,6 +35,14 @@ public class VehicleService {
 		}	
 	}
 
+	public boolean modify(Vehicle vehicle) throws ServiceException {
+		try{
+			return vehicleDao.modify(vehicle);
+		} catch (DaoException e){
+			throw new ServiceException("Vehicle Service modify : "+e.getMessage());
+		}
+	}
+
 	public Vehicle findById(long id) throws ServiceException {
 		try{
 			return vehicleDao.findById(id);

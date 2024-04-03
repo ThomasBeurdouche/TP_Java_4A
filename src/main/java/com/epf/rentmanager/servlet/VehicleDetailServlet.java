@@ -56,7 +56,6 @@ public class VehicleDetailServlet extends HttpServlet {
                 request.setAttribute("nb_client", clients.size());
             } else {
                 System.out.println("Id absent des paramètres");
-                response.sendRedirect(request.getContextPath() + "/vehicles"); //TODO
             }
         }catch (ServiceException e) {
             System.out.println("Servlet doGet Vehicle detail : "+e.getMessage());

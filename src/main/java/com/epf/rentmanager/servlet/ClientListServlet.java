@@ -5,6 +5,7 @@ import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.model.Reservation;
 import com.epf.rentmanager.model.Vehicle;
 import com.epf.rentmanager.service.ClientService;
+import com.epf.rentmanager.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
@@ -22,6 +23,8 @@ public class ClientListServlet extends HttpServlet {
 
     @Autowired
     private ClientService clientService;
+    @Autowired
+    private ReservationService reservationService;
 
     @Override
     public void init() throws ServletException {
@@ -31,15 +34,17 @@ public class ClientListServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            String idParameter = request.getParameter("id");
-            /*if (idParameter != null && !idParameter.isEmpty()) {
+            /*String idParameter = request.getParameter("id");
+            if (idParameter != null && !idParameter.isEmpty()) {
                 long userId = Long.parseLong(idParameter);
+                for(Reservation reservation : reservationService.findByClientId(userId)){
+                    reservationService.delete(reservation);
+                }
                 clientService.delete(clientService.findById(userId));
-                response.sendRedirect(request.getContextPath()+"/users");
             }*/
             request.setAttribute("clients", clientService.findAll());
         }catch (ServiceException e) {
-            System.out.println("Servlet doGet Client : "+e.getMessage());
+            System.out.println("Servlet List doGet Client : "+e.getMessage());
         }
 
         this.getServletContext().getRequestDispatcher("/WEB-INF/views/users/list.jsp").forward(request, response);

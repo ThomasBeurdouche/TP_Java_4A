@@ -48,7 +48,7 @@
                                             <a class="btn btn-success" href="${pageContext.request.contextPath}/rents/modify?id=${reservation.id}">
                                                 <i class="fa fa-edit"></i>
                                             </a>
-                                            <a class="btn btn-danger" href="${pageContext.request.contextPath}/rents?id=${reservation.id}">
+                                            <a class="btn btn-danger" href="${pageContext.request.contextPath}/rents/delete?id=${reservation.id}">
                                                 <i class="fa fa-trash"></i>
                                             </a>
                                         </td>

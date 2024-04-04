@@ -34,14 +34,6 @@ public class ClientListServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            /*String idParameter = request.getParameter("id");
-            if (idParameter != null && !idParameter.isEmpty()) {
-                long userId = Long.parseLong(idParameter);
-                for(Reservation reservation : reservationService.findByClientId(userId)){
-                    reservationService.delete(reservation);
-                }
-                clientService.delete(clientService.findById(userId));
-            }*/
             request.setAttribute("clients", clientService.findAll());
         }catch (ServiceException e) {
             System.out.println("Servlet List doGet Client : "+e.getMessage());

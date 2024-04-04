@@ -29,11 +29,6 @@ public class ReservationListServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            /*String idParameter = request.getParameter("id");
-            if (idParameter != null && !idParameter.isEmpty()) {
-                long reservationId = Long.parseLong(idParameter);
-                reservationService.delete(reservationService.findById(reservationId));
-            }*/
             request.setAttribute("reservations", reservationService.findAll());
         }catch (ServiceException e) {
             System.out.println("Servlet doGet Reservation : "+e.getMessage());
@@ -42,7 +37,4 @@ public class ReservationListServlet extends HttpServlet {
         this.getServletContext().getRequestDispatcher("/WEB-INF/views/rents/list.jsp").forward(request, response);
     }
 
-    // TODO : A Tester
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    }
 }

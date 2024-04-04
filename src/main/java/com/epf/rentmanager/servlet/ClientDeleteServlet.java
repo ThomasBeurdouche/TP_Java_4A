@@ -1,27 +1,25 @@
 package com.epf.rentmanager.servlet;
-import com.epf.rentmanager.AppConfiguration;
+
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.model.Reservation;
-import com.epf.rentmanager.model.Vehicle;
 import com.epf.rentmanager.service.ClientService;
 import com.epf.rentmanager.service.ReservationService;
-import com.epf.rentmanager.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
-
-import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
-@WebServlet("/vehicles")
-public class VehicleListServlet extends HttpServlet{
+@WebServlet("/users/delete")
+public class ClientDeleteServlet extends HttpServlet {
 
     @Autowired
-    private VehicleService vehicleService;
+    private ClientService clientService;
+
     @Autowired
     private ReservationService reservationService;
 
@@ -33,12 +31,17 @@ public class VehicleListServlet extends HttpServlet{
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            request.setAttribute("vehicles", vehicleService.findAll());
+            String idParameter = request.getParameter("id");
+            if (idParameter != null && !idParameter.isEmpty()) {
+                long userId = Long.parseLong(idParameter);
+                for(Reservation reservation : reservationService.findByClientId(userId)){
+                    reservationService.delete(reservation);
+                }
+                clientService.delete(clientService.findById(userId));
+            }
+            response.sendRedirect(request.getContextPath() + "/users");
         }catch (ServiceException e) {
-            System.out.println("Servlet List doGet Vehicle : "+e.getMessage());
+            System.out.println("Servlet Delete doGet Client : "+e.getMessage());
         }
-
-        this.getServletContext().getRequestDispatcher("/WEB-INF/views/vehicles/list.jsp").forward(request, response);
-	}
-
+    }
 }

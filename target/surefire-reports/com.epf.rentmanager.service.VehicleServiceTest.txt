@@ -1,0 +1,15 @@
+-------------------------------------------------------------------------------
+Test set: com.epf.rentmanager.service.VehicleServiceTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0 s <<< FAILURE! - in com.epf.rentmanager.service.VehicleServiceTest
+initializationError(com.epf.rentmanager.service.VehicleServiceTest)  Time elapsed: 0 s  <<< ERROR!
+org.mockito.exceptions.base.MockitoException: 
+
+
+No tests found in VehicleServiceTest
+Is the method annotated with @Test?
+Is the method public?
+
+Caused by: java.lang.reflect.InvocationTargetException
+Caused by: org.junit.runners.model.InitializationError
+

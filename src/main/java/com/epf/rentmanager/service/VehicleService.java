@@ -14,7 +14,7 @@ public class VehicleService {
 	@Autowired
 	private VehicleDao vehicleDao;
 
-	private VehicleService(VehicleDao vehicleDao) {
+	public VehicleService(VehicleDao vehicleDao) {
 		this.vehicleDao = vehicleDao;
 	}
 	

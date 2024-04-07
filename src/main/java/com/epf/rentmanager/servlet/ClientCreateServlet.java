@@ -4,6 +4,7 @@ import com.epf.rentmanager.AppConfiguration;
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.model.Client;
 import com.epf.rentmanager.service.ClientService;
+import org.graalvm.compiler.asm.sparc.SPARCAssembler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
@@ -15,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet("/users/create")
 public class ClientCreateServlet extends HttpServlet {
@@ -29,6 +32,16 @@ public class ClientCreateServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            List<String> bddEmail = new ArrayList<>();
+            for (Client client : clientService.findAll()){
+                bddEmail.add(client.getEmail());
+            }
+            request.setAttribute("bddEmail",bddEmail);
+        }catch (ServiceException e) {
+            request.setAttribute("errorMessage", "Une erreur est survenue lors de la création du client : " + e.getMessage());
+        }
+
         this.getServletContext().getRequestDispatcher("/WEB-INF/views/users/create.jsp").forward(request, response);
     }
 
@@ -45,7 +58,7 @@ public class ClientCreateServlet extends HttpServlet {
             clientService.create(newClient);
             response.sendRedirect(request.getContextPath() + "/users");
         } catch (ServiceException e) {
-            request.setAttribute("errorMessage", "Une erreur est survenue lors de la création du client : " + e.getMessage());
+            request.setAttribute("errorMessage", "Servlet Client DoPost : " + e.getMessage());
         }
     }
 }

@@ -25,7 +25,7 @@
                     <!-- Horizontal Form -->
                     <div class="box">
                         <!-- form start -->
-                        <form class="form-horizontal" method="post" action="/rentmanager/users/create">
+                        <form id=formulaireID class="form-horizontal" method="post" action="/rentmanager/users/create">
                             <div class="box-body">
                                 <div class="form-group">
                                     <label for="last_name" class="col-sm-2 control-label">Nom</label>
@@ -84,6 +84,44 @@
     $(function () {
         $('[data-mask]').inputmask()
     });
+
+    function preventFormSubmit(event) {
+        var message = "";
+
+        var birthdayString = document.getElementById("birthday").value;
+        var birthday = new Date(birthdayString);
+        var dateActuelle = new Date();
+        var difference = dateActuelle.getTime() - birthday.getTime();
+        var age = Math.floor(difference / (1000 * 60 * 60 * 24 * 365.25));
+
+        if (age < 18) {
+          message+="L'utilisateur doit avoir plus de 18 ans !\n";
+        }
+
+        var nom = document.getElementById("last_name").value;
+        var prenom = document.getElementById("first_name").value;
+
+        if (nom.length<3 || prenom.length<3){
+          message+="Le nom et le prenom de l'utilisateur doivent faire au moins 3 characteres !\n";
+        }
+
+        var email = document.getElementById("email").value;
+        var bddEmail = "${bddEmail}";
+        if (bddEmail.includes(email)){
+          message+="Cette email est deja utilise !\n";
+        }
+
+        if(message!=""){
+            alert(message)
+            event.preventDefault();
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var form = document.getElementById("formulaireID");
+        form.addEventListener("submit", preventFormSubmit);
+    });
+
 </script>
 </body>
 </html>
